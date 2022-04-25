@@ -260,7 +260,7 @@ const iconsMap = {
   ReaderIcon: ChromeReaderModeRoundedIcon,
   TableViewIcon: TableViewRoundedIcon,
 };
-
+/* 
 function MuiNav() {
   const [open, setOpen] = React.useState<boolean[]>([...Array(pages.length).map(() => false)]);
   const t = useTranslate();
@@ -423,7 +423,7 @@ function MuiNav() {
     </List>
   );
 }
-
+ */
 const Firebash = () => {
   const [open, setOpen] = React.useState(true);
   const data = [
@@ -1186,7 +1186,7 @@ export default function JoyTypography() {
 
           <Gmail />
 
-          <MuiNav />
+     {/*      <MuiNav /> */}
 
           <Firebash />
 
