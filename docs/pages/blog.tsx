@@ -8,23 +8,19 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Section from 'docs/src/layouts/Section';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import Chip from '@mui/material/Chip';
 import Head from 'docs/src/modules/components/Head';
 import AppHeader from 'docs/src/layouts/AppHeader';
-import AppFooter from 'docs/src/layouts/AppFooter';
 import GradientText from 'docs/src/components/typography/GradientText';
 import BrandingProvider from 'docs/src/BrandingProvider';
 import { authors as AUTHORS } from 'docs/src/modules/components/TopLayoutBlog';
-import HeroEnd from 'docs/src/components/home/HeroEnd';
 import Link from 'docs/src/modules/components/Link';
 
-export const getStaticProps = async () => {
+export const getStaticProps = () => {
   const data = getAllBlogPosts();
   return {
     props: data,
@@ -34,32 +30,30 @@ export const getStaticProps = async () => {
 const PostPreview = (props: BlogPost) => {
   return (
     <React.Fragment>
-      {props.tags && (
-        <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
-          {props.tags.map((tag) => (
-            <Chip
-              key={tag}
-              label={tag}
-              size="small"
-              sx={{
-                fontWeight: 500,
-                color: (theme) =>
-                  theme.palette.mode === 'dark' ? theme.palette.grey[50] : theme.palette.grey[700],
+      <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
+        {props.tags.map((tag) => (
+          <Chip
+            key={tag}
+            label={tag}
+            size="small"
+            sx={{
+              fontWeight: 500,
+              color: (theme) =>
+                theme.palette.mode === 'dark' ? theme.palette.grey[50] : theme.palette.grey[700],
+              background: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? alpha(theme.palette.grey[700], 0.5)
+                  : theme.palette.grey[100],
+              '&:hover': {
                 background: (theme) =>
                   theme.palette.mode === 'dark'
                     ? alpha(theme.palette.grey[700], 0.5)
                     : theme.palette.grey[100],
-                '&:hover': {
-                  background: (theme) =>
-                    theme.palette.mode === 'dark'
-                      ? alpha(theme.palette.grey[700], 0.5)
-                      : theme.palette.grey[100],
-                },
-              }}
-            />
-          ))}
-        </Box>
-      )}
+              },
+            }}
+          />
+        ))}
+      </Box>
       <Typography
         component="h2"
         fontWeight="bold"
@@ -175,8 +169,9 @@ const PostPreview = (props: BlogPost) => {
   );
 };
 
+const PAGE_SIZE = 5;
+
 export default function Blog(props: InferGetStaticPropsType<typeof getStaticProps>) {
-  const PAGE_SIZE = 5;
   const router = useRouter();
   const postListRef = React.useRef<HTMLDivElement | null>(null);
   const [page, setPage] = React.useState(0);
@@ -185,24 +180,26 @@ export default function Blog(props: InferGetStaticPropsType<typeof getStaticProp
   const [firstPost, secondPost, ...otherPosts] = allBlogPosts;
   const tagInfo = { ...rawTagInfo };
   [firstPost, secondPost].forEach((post) => {
-    if (post.tags) {
-      post.tags.forEach((tag) => {
-        if (tagInfo[tag]) {
-          tagInfo[tag]! -= 1;
-        }
-      });
-    }
+    post.tags.forEach((tag) => {
+      if (tagInfo[tag]) {
+        tagInfo[tag]! -= 1;
+      }
+    });
   });
   Object.entries(tagInfo).forEach(([tagName, tagCount]) => {
-    if (!tagCount) {
+    if (tagCount === 0) {
       delete tagInfo[tagName];
     }
   });
-  const filteredPosts = otherPosts.filter(
-    (post) =>
-      !Object.keys(selectedTags).length ||
-      (post.tags || []).some((tag) => Object.keys(selectedTags).includes(tag)),
-  );
+  const filteredPosts = otherPosts.filter((post) => {
+    if (Object.keys(selectedTags).length === 0) {
+      return true;
+    }
+
+    return post.tags.some((tag) => {
+      return Object.keys(selectedTags).includes(tag);
+    });
+  });
   const pageStart = page * PAGE_SIZE;
   const totalPage = Math.ceil(filteredPosts.length / PAGE_SIZE);
   const displayedPosts = filteredPosts.slice(pageStart, pageStart + PAGE_SIZE);
@@ -223,18 +220,6 @@ export default function Blog(props: InferGetStaticPropsType<typeof getStaticProp
     setPage(0);
   }, [getTags]);
 
-  const removeTag = (tag: string) => {
-    router.push(
-      {
-        query: {
-          ...router.query,
-          tags: getTags().filter((value) => value !== tag),
-        },
-      },
-      undefined,
-      { shallow: true },
-    );
-  };
   return (
     <BrandingProvider>
       <Head
@@ -243,74 +228,23 @@ export default function Blog(props: InferGetStaticPropsType<typeof getStaticProp
         disableAlternateLocale
       />
       <AppHeader />
-      <main>
-        <Section bg="gradient">
+        <Section
+          bg="gradient"
+          sx={{ backgroundSize: 'auto 300px ', backgroundRepeat: 'no-repeat' }}
+        >
           <Typography variant="body2" color="primary.600" fontWeight="bold" textAlign="center">
             Blog
           </Typography>
           <Typography component="h1" variant="h2" textAlign="center" sx={{ mb: { xs: 5, md: 10 } }}>
             The <GradientText>latest</GradientText> about MUI
           </Typography>
-          <Box
-            component="ul"
-            sx={{
-              display: 'grid',
-              m: 0,
-              p: 0,
-              gap: 2,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            }}
-          >
-            {[firstPost, secondPost].map((post) => (
-              <Paper
-                key={post.slug}
-                component="li"
-                variant="outlined"
-                sx={(theme) => ({
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  position: 'relative',
-                  transition: 'all ease 120ms',
-                  '&:hover, &:focus-within': {
-                    borderColor: theme.palette.mode === 'dark' ? 'primary.600' : 'grey.300',
-                    boxShadow: `0px 4px 20px ${
-                      theme.palette.mode === 'dark'
-                        ? 'rgba(0, 0, 0, 0.5)'
-                        : 'rgba(170, 180, 190, 0.3)'
-                    }`,
-                  },
-                  '&:focus-within': {
-                    '& a': {
-                      outline: 'none',
-                    },
-                  },
-                })}
-              >
-                {post.image && (
-                  <Box
-                    component="img"
-                    src={post.image}
-                    sx={{
-                      aspectRatio: '16 / 9',
-                      width: '100%',
-                      height: 'auto',
-                      objectFit: 'cover',
-                      borderRadius: '4px',
-                    }}
-                  />
-                )}
-                <PostPreview {...post} />
-              </Paper>
-            ))}
-          </Box>
         </Section>
         <Container
           ref={postListRef}
           sx={{
             mt: -6,
             display: 'grid',
-            gridTemplateColumns: { md: '1fr 380px' },
+            // gridTemplateColumns: { md: '1fr 380px' },
             columnGap: 8,
           }}
         >
@@ -321,83 +255,8 @@ export default function Blog(props: InferGetStaticPropsType<typeof getStaticProp
             fontWeight="700"
             sx={{ mb: { xs: 1, sm: 2 }, mt: 8 }} // margin-top makes the title appear when scroll into view
           >
-            Posts{' '}
-            {Object.keys(selectedTags).length ? (
-              <span>
-                tagged as{' '}
-                <Typography component="span" variant="inherit" color="primary" noWrap>
-                  &quot;{Object.keys(selectedTags)[0]}&quot;
-                </Typography>
-              </span>
-            ) : (
-              ''
-            )}
+            Posts
           </Typography>
-          <Box sx={{ gridRow: 'span 2' }}>
-            <Box
-              sx={{
-                position: 'sticky',
-                top: 100,
-                alignSelf: 'start',
-                mb: 2,
-                mt: { xs: 3, sm: 2, md: 9 }, // margin-top makes the title appear when scroll into view
-                p: 2,
-                borderRadius: 1,
-                border: '1px solid',
-                background: (theme) =>
-                  theme.palette.mode === 'dark'
-                    ? alpha(theme.palette.primaryDark[700], 0.2)
-                    : 'rgba(255, 255, 255, 0.2)',
-                borderColor: (theme) =>
-                  theme.palette.mode === 'dark'
-                    ? theme.palette.primaryDark[700]
-                    : theme.palette.grey[200],
-              }}
-            >
-              <Typography color="text.primary" fontWeight="500" sx={{ mb: 2 }}>
-                Filter by tag
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                {Object.keys(tagInfo).map((tag) => {
-                  const selected = !!selectedTags[tag];
-                  return (
-                    <Chip
-                      key={tag}
-                      variant={selected ? 'filled' : 'outlined'}
-                      {...(selected
-                        ? {
-                            label: tag,
-                            onDelete: () => {
-                              postListRef.current?.scrollIntoView();
-                              removeTag(tag);
-                            },
-                          }
-                        : {
-                            label: tag,
-                            onClick: () => {
-                              postListRef.current?.scrollIntoView();
-                              router.push(
-                                {
-                                  query: {
-                                    ...router.query,
-                                    tags: tag,
-                                  },
-                                },
-                                undefined,
-                                { shallow: true },
-                              );
-                            },
-                          })}
-                      size="small"
-                      sx={{
-                        py: 1.2,
-                      }}
-                    />
-                  );
-                })}
-              </Box>
-            </Box>
-          </Box>
           <Box>
             <Box component="ul" sx={{ p: 0, m: 0 }}>
               {displayedPosts.map((post) => (
@@ -432,10 +291,6 @@ export default function Blog(props: InferGetStaticPropsType<typeof getStaticProp
             />
           </Box>
         </Container>
-      </main>
-      <HeroEnd />
-      <Divider />
-      <AppFooter />
     </BrandingProvider>
   );
 }

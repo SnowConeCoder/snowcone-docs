@@ -185,15 +185,15 @@ function AppWrapper(props) {
 
   const asPathWithoutLang = router.asPath.replace(/^\/[a-zA-Z]{2}\//, '/');
   let productPages = pages;
-  /* if (asPathWithoutLang.startsWith('/base')) {
+  if (asPathWithoutLang.startsWith('/base')) {
     productPages = basePages;
-  } */
-  /* if (asPathWithoutLang.startsWith('/material-ui')) {
+  }
+  if (asPathWithoutLang.startsWith('/material-ui')) {
     productPages = materialPages;
-  } */
-  /*  if (asPathWithoutLang.startsWith('/system') && FEATURE_TOGGLE.enable_system_scope) {
-     productPages = systemPages;
-   } */
+  }
+  if (asPathWithoutLang.startsWith('/system') && FEATURE_TOGGLE.enable_system_scope) {
+    productPages = systemPages;
+  }
 
   const activePage = findActivePage(productPages, router.pathname);
 
@@ -265,12 +265,6 @@ MyApp.getInitialProps = async ({ ctx, Component }) => {
     },
   };
 };
-
-/* export async function getServerSideProps(context) {
-  return {
-    props: { context }, // will be passed to the page component as props
-  }
-} */
 
 // Track fraction of actual events to prevent exceeding event quota.
 // Filter sessions instead of individual events so that we can track multiple metrics per device.

@@ -1,45 +1,19 @@
 import * as React from 'react';
 import Head from 'docs/src/modules/components/Head';
-import NoSsr from '@mui/material/NoSsr';
-import Divider from '@mui/material/Divider';
 import AppHeader from 'docs/src/layouts/AppHeader';
 import Hero from 'docs/src/components/home/Hero';
-import References, { CORE_CUSTOMERS } from 'docs/src/components/home/References';
-import ProductSuite from 'docs/src/components/home/ProductSuite';
-import ValueProposition from 'docs/src/components/home/ValueProposition';
-import DesignSystemComponents from 'docs/src/components/home/DesignSystemComponents';
-import Testimonials from 'docs/src/components/home/Testimonials';
-
-import HeroEnd from 'docs/src/components/home/HeroEnd';
-import AppFooter from 'docs/src/layouts/AppFooter';
-
-import NewsletterToast from 'docs/src/components/home/NewsletterToast';
-import AppHeaderBanner from 'docs/src/components/banner/AppHeaderBanner';
 
 export default function Home() {
   return (
     <React.Fragment>
       <Head
-        title="MUI: The React component library you always wanted"
-        description="MUI provides a simple, customizable, and accessible library of React components. Follow your own design system, or start with Material Design. You will develop React applications faster."
+        title="SnowCone"
+        description="SnowCone"
       />
-      <NoSsr>
-        <NewsletterToast />
-      </NoSsr>
-      <AppHeaderBanner />
       <AppHeader />
       <main>
         <Hero />
-        <References companies={CORE_CUSTOMERS} />
-        <ProductSuite />
-        <ValueProposition />
-        <DesignSystemComponents />
-        <Testimonials />
-
-        <HeroEnd />
-        <Divider />
       </main>
-      <AppFooter />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
