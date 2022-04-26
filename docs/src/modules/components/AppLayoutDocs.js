@@ -4,16 +4,17 @@ import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';
 import { exactProp } from '@mui/utils';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import NoSsr from '@mui/material/NoSsr';
+// import NoSsr from '@mui/material/NoSsr';
 import Head from 'docs/src/modules/components/Head';
 import AppFrame from 'docs/src/modules/components/AppFrame';
 import EditPage from 'docs/src/modules/components/EditPage';
 import AppContainer from 'docs/src/modules/components/AppContainer';
 import AppTableOfContents from 'docs/src/modules/components/AppTableOfContents';
-import Ad from 'docs/src/modules/components/Ad';
-import AdManager from 'docs/src/modules/components/AdManager';
-import AdGuest from 'docs/src/modules/components/AdGuest';
-import AppLayoutDocsFooter from 'docs/src/modules/components/AppLayoutDocsFooter';
+// import Ad from 'docs/src/modules/components/Ad';
+// import AdManager from 'docs/src/modules/components/AdManager';
+// import AdGuest from 'docs/src/modules/components/AdGuest';
+// import AppLayoutDocsFooter from 'docs/src/modules/components/AppLayoutDocsFooter';
+
 
 const Main = styled('main', {
   shouldForwardProp: (prop) => prop !== 'disableToc',
@@ -71,7 +72,7 @@ function AppLayoutDocs(props) {
   const {
     children,
     description,
-    disableAd = false,
+    // disableAd = true,
     disableToc = false,
     location,
     title,
@@ -105,28 +106,31 @@ function AppLayoutDocs(props) {
           },
         }}
       />
-      <AdManager>
-        <Head title={`${title} - ${productName}`} description={description} />
-        {disableAd ? null : (
+      {/* <AdManager> */}
+      <Head title={`${title} - ${productName}`} description={description} />
+      {/* {disableAd ? null : (
           <AdGuest>
             <Ad />
           </AdGuest>
-        )}
-        <Main disableToc={disableToc}>
-          {/*
+        )} */}
+      <Main disableToc={disableToc}>
+        {/*
             Render the TOCs first to avoid layout shift when the HTML is streamed.
             See https://jakearchibald.com/2014/dont-use-flexbox-for-page-layout/ for more details.
           */}
-          {disableToc ? null : <AppTableOfContents toc={toc} />}
-          <StyledAppContainer disableAd={disableAd} disableToc={disableToc}>
-            <ActionsDiv>{location && <EditPage markdownLocation={location} />}</ActionsDiv>
-            {children}
-            <NoSsr>
+        {disableToc ? null : <AppTableOfContents toc={toc} />}
+        <StyledAppContainer
+          // disableAd={disableAd}
+          disableToc={disableToc}
+        >
+          <ActionsDiv>{location && <EditPage markdownLocation={location} />}</ActionsDiv>
+          {children}
+          {/* <NoSsr>
               <AppLayoutDocsFooter />
-            </NoSsr>
-          </StyledAppContainer>
-        </Main>
-      </AdManager>
+            </NoSsr> */}
+        </StyledAppContainer>
+      </Main>
+      {/* </AdManager> */}
     </AppFrame>
   );
 }

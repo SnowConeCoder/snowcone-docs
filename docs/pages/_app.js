@@ -203,7 +203,7 @@ function AppWrapper(props) {
       'https://fonts.googleapis.com/css?family=Roboto+Condensed:700|Work+Sans:300,400&display=swap',
     ];
   }
-  console.log(pageProps);
+
   return (
     <React.Fragment>
       <NextHead>

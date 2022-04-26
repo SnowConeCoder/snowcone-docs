@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import NoSsr from '@mui/material/NoSsr';
 import HighlightedCode from 'docs/src/modules/components/HighlightedCode';
 import DemoSandboxed from 'docs/src/modules/components/DemoSandboxed';
-import { AdCarbonInline } from 'docs/src/modules/components/AdCarbon';
+// import { AdCarbonInline } from 'docs/src/modules/components/AdCarbon';
 import { useCodeVariant } from 'docs/src/modules/utils/codeVariant';
 import { CODE_VARIANTS } from 'docs/src/modules/constants';
 import { useUserLanguage, useTranslate } from 'docs/src/modules/utils/i18n';
@@ -148,124 +148,70 @@ const InitialFocus = styled(IconButton)(({ theme }) => ({
   pointerEvents: 'none',
 }));
 export default function Demo(props) {
-  const { demo, demoOptions, disableAd, githubLocation } = props;
-  const t = useTranslate();
-  const codeVariant = useCodeVariant();
-  const demoData = useDemoData(codeVariant, demo, githubLocation);
+  // const { demo,
+  //   //  demoOptions, 
+  //   disableAd, githubLocation } = props;
+  // const t = useTranslate();
+  // const codeVariant = useCodeVariant();
+  // const demoData = useDemoData(codeVariant, demo, githubLocation);
 
-  const [demoHovered, setDemoHovered] = React.useState(false);
-  const handleDemoHover = (event) => {
-    setDemoHovered(event.type === 'mouseenter');
-  };
+  // const [demoHovered, setDemoHovered] = React.useState(false);
+  // const handleDemoHover = (event) => {
+  //   setDemoHovered(event.type === 'mouseenter');
+  // };
 
-  const DemoComponent = demoData.Component;
-  const demoName = getDemoName(demoData.githubLocation);
-  const demoSandboxedStyle = React.useMemo(
-    () => ({
-      maxWidth: demoOptions.maxWidth,
-      height: demoOptions.height,
-    }),
-    [demoOptions.height, demoOptions.maxWidth],
-  );
+  // const DemoComponent = demoData.Component;
+  // const demoName = getDemoName(demoData.githubLocation);
+  // // const demoSandboxedStyle = React.useMemo(
+  // //   () => ({
+  // //     maxWidth: demoOptions.maxWidth,
+  // //     height: demoOptions.height,
+  // //   }),
+  // //   [demoOptions.height, demoOptions.maxWidth],
+  // // );
 
-  if (demoOptions.bg == null) {
-    demoOptions.bg = 'outlined';
-  }
+  // // if (demoOptions.bg == null) {
+  // //   demoOptions.bg = 'outlined';
+  // // }
 
-  if (demoOptions.iframe) {
-    demoOptions.bg = true;
-  }
+  // // if (demoOptions.iframe) {
+  // //   demoOptions.bg = true;
+  // // }
 
-  const [codeOpen, setCodeOpen] = React.useState(demoOptions.defaultCodeOpen || false);
-  const shownOnce = React.useRef(false);
-  if (codeOpen) {
-    shownOnce.current = true;
-  }
+  // // const [codeOpen, setCodeOpen] = React.useState(demoOptions.defaultCodeOpen || false);
+  // const shownOnce = React.useRef(false);
+  // // if (codeOpen) {
+  // //   shownOnce.current = true;
+  // // }
 
-  React.useEffect(() => {
-    const navigatedDemoName = getDemoName(window.location.hash);
-    if (demoName === navigatedDemoName) {
-      setCodeOpen(true);
-    }
-  }, [demoName]);
+  // React.useEffect(() => {
+  //   const navigatedDemoName = getDemoName(window.location.hash);
+  //   if (demoName === navigatedDemoName) {
+  //     setCodeOpen(true);
+  //   }
+  // }, [demoName]);
 
-  const showPreview =
-    !demoOptions.hideToolbar && demoOptions.defaultCodeOpen !== false && Boolean(demo.jsxPreview);
+  // // const showPreview =
+  // //   !demoOptions.hideToolbar && demoOptions.defaultCodeOpen !== false && Boolean(demo.jsxPreview);
 
-  const [demoKey, resetDemo] = React.useReducer((key) => key + 1, 0);
+  // const [demoKey, resetDemo] = React.useReducer((key) => key + 1, 0);
 
-  const demoId = useUniqueId('demo-');
-  const demoSourceId = useUniqueId(`demoSource-`);
-  const openDemoSource = codeOpen || showPreview;
+  // const demoId = useUniqueId('demo-');
+  // const demoSourceId = useUniqueId(`demoSource-`);
+  // // const openDemoSource = codeOpen || showPreview;
 
-  const initialFocusRef = React.useRef(null);
+  // const initialFocusRef = React.useRef(null);
 
-  const [showAd, setShowAd] = React.useState(false);
+  // const [showAd, setShowAd] = React.useState(false);
 
   return (
-    <Root>
-      <AnchorLink id={`${demoName}`} />
-      <DemoRoot
-        hiddenToolbar={demoOptions.hideToolbar}
-        bg={demoOptions.bg}
-        id={demoId}
-        onMouseEnter={handleDemoHover}
-        onMouseLeave={handleDemoHover}
-      >
-        <InitialFocus aria-label={t('initialFocusLabel')} action={initialFocusRef} tabIndex={-1} />
-        <DemoSandboxed
-          key={demoKey}
-          style={demoSandboxedStyle}
-          component={DemoComponent}
-          iframe={demoOptions.iframe}
-          name={demoName}
-          onResetDemoClick={resetDemo}
-        />
-      </DemoRoot>
-      <AnchorLink id={`${demoName}.js`} />
-      <AnchorLink id={`${demoName}.tsx`} />
-      {demoOptions.hideToolbar ? null : (
-        <NoSsr defer fallback={<DemoToolbarFallback />}>
-          <React.Suspense fallback={<DemoToolbarFallback />}>
-            <DemoToolbar
-              codeOpen={codeOpen}
-              codeVariant={codeVariant}
-              demo={demo}
-              demoData={demoData}
-              demoHovered={demoHovered}
-              demoId={demoId}
-              demoName={demoName}
-              demoOptions={demoOptions}
-              demoSourceId={demoSourceId}
-              initialFocusRef={initialFocusRef}
-              onCodeOpenChange={() => {
-                setCodeOpen((open) => !open);
-                setShowAd(true);
-              }}
-              onResetDemoClick={resetDemo}
-              openDemoSource={openDemoSource}
-              showPreview={showPreview}
-            />
-          </React.Suspense>
-        </NoSsr>
-      )}
-      <Collapse in={openDemoSource} unmountOnExit>
-        <div>
-          <Code
-            id={demoSourceId}
-            code={showPreview && !codeOpen ? demo.jsxPreview : demoData.raw}
-            language={demoData.sourceLanguage}
-          />
-        </div>
-      </Collapse>
-      {showAd && !disableAd && !demoOptions.disableAd ? <AdCarbonInline /> : null}
-    </Root>
+  null
   );
 }
 
 Demo.propTypes = {
   demo: PropTypes.object.isRequired,
-  demoOptions: PropTypes.object.isRequired,
+  // demoOptions: PropTypes.object.isRequired,
   disableAd: PropTypes.bool.isRequired,
   githubLocation: PropTypes.string.isRequired,
 };

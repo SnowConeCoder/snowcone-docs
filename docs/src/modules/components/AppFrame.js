@@ -17,14 +17,12 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import NProgressBar from '@mui/docs/NProgressBar';
 import AppNavDrawer from 'docs/src/modules/components/AppNavDrawer';
 import AppSettingsDrawer from 'docs/src/modules/components/AppSettingsDrawer';
-import Notifications from 'docs/src/modules/components/Notifications';
 import MarkdownLinks from 'docs/src/modules/components/MarkdownLinks';
 import PageContext from 'docs/src/modules/components/PageContext';
 import { useTranslate } from 'docs/src/modules/utils/i18n';
 import { debounce } from '@mui/material/utils';
 import NextLink from 'next/link';
 import SvgMuiLogo from 'docs/src/icons/SvgMuiLogo';
-import AppFrameBanner from 'docs/src/components/banner/AppFrameBanner';
 
 const nProgressStart = debounce(() => {
   NProgress.start();
@@ -61,27 +59,6 @@ export function NextNProgressBar() {
   }, [router]);
 
   return <NProgressBar />;
-}
-
-const AppSearch = React.lazy(() => import('docs/src/modules/components/AppSearch'));
-export function DeferredAppSearch() {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (
-    <React.Fragment>
-      {/* Suspense isn't supported for SSR yet */}
-      {mounted ? (
-        <React.Suspense fallback={<Box sx={{ minWidth: { sm: 200 } }} />}>
-          <AppSearch />
-        </React.Suspense>
-      ) : (
-        <Box sx={{ minWidth: { sm: 200 } }} />
-      )}
-    </React.Fragment>
-  );
 }
 
 const RootDiv = styled('div')(({ theme }) => {
@@ -222,8 +199,6 @@ function AppFrame(props) {
           </NextLink>
           <GrowingDiv />
           <Stack direction="row" spacing={1.3}>
-            {/* <AppFrameBanner /> */}
-            <DeferredAppSearch />
             <Tooltip title={t('appFrame.github')} enterDelay={300}>
               <IconButton
                 component="a"
@@ -235,7 +210,6 @@ function AppFrame(props) {
                 <GitHubIcon fontSize="small" />
               </IconButton>
             </Tooltip>
-            <Notifications />
             <Tooltip title={t('appFrame.toggleSettings')} enterDelay={300}>
               <IconButton color="primary" onClick={() => setSettingsOpen(true)} sx={{ px: '8px' }}>
                 <SettingsIcon fontSize="small" />

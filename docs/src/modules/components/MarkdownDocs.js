@@ -22,7 +22,7 @@ function noComponent(moduleID) {
 
 function MarkdownDocs(props) {
   const router = useRouter();
-  const { disableAd = false, disableToc = false, demos = {}, docs, demoComponents } = props;
+  const { disableAd = true, disableToc = false, demos = {}, docs, demoComponents } = props;
 
   const userLanguage = useUserLanguage();
   const t = useTranslate();
@@ -47,55 +47,55 @@ function MarkdownDocs(props) {
           );
         }
 
-        if (renderedMarkdownOrDemo.component) {
-          const Component = markdownComponents[renderedMarkdownOrDemo.component];
-          return <Component key={index} headers={headers} options={renderedMarkdownOrDemo} />;
-        }
+        // if (renderedMarkdownOrDemo.component) {
+        //   const Component = markdownComponents[renderedMarkdownOrDemo.component];
+        //   return <Component key={index} headers={headers} options={renderedMarkdownOrDemo} />;
+        // }
 
-        const name = renderedMarkdownOrDemo.demo;
-        const demo = demos?.[name];
-        if (demo === undefined) {
-          const errorMessage = [
-            `Missing demo: ${name}. You can use one of the following:`,
-            Object.keys(demos),
-          ].join('\n');
+        // const name = renderedMarkdownOrDemo.demo;
+        // const demo = demos?.[name];
+        // if (demo === undefined) {
+        //   const errorMessage = [
+        //     `Missing demo: ${name}. You can use one of the following:`,
+        //     Object.keys(demos),
+        //   ].join('\n');
 
-          if (userLanguage === 'en') {
-            throw new Error(errorMessage);
-          }
+        //   if (userLanguage === 'en') {
+        //     throw new Error(errorMessage);
+        //   }
 
-          if (process.env.NODE_ENV !== 'production') {
-            console.error(errorMessage);
-          }
+        //   if (process.env.NODE_ENV !== 'production') {
+        //     console.error(errorMessage);
+        //   }
 
-          const warnIcon = (
-            <span role="img" aria-label={t('emojiWarning')}>
-              ⚠️
-            </span>
-          );
-          return (
-            <div key={index}>
-              {/* eslint-disable-next-line material-ui/no-hardcoded-labels */}
-              {warnIcon} Missing demo `{name}` {warnIcon}
-            </div>
-          );
-        }
+        //   const warnIcon = (
+        //     <span role="img" aria-label={t('emojiWarning')}>
+        //       ⚠️
+        //     </span>
+        //   );
+        //   return (
+        //     <div key={index}>
+        //       {/* eslint-disable-next-line material-ui/no-hardcoded-labels */}
+        //       {warnIcon} Missing demo `{name}` {warnIcon}
+        //     </div>
+        //   );
+        // }
 
-        return (
-          <Demo
-            key={index}
-            demo={{
-              raw: demo.raw,
-              js: demoComponents[demo.module] ?? noComponent(demo.module),
-              jsxPreview: demo.jsxPreview,
-              rawTS: demo.rawTS,
-              tsx: demo.moduleTS ? demoComponents[demo.moduleTS] : null,
-            }}
-            disableAd={disableAd}
-            demoOptions={renderedMarkdownOrDemo}
-            githubLocation={`${process.env.SOURCE_CODE_REPO}/blob/v${process.env.LIB_VERSION}/docs/src/${name}`}
-          />
-        );
+        // return (
+        //   <Demo
+        //     key={index}
+        //     demo={{
+        //       raw: demo.raw,
+        //       js: demoComponents[demo.module] ?? noComponent(demo.module),
+        //       jsxPreview: demo.jsxPreview,
+        //       rawTS: demo.rawTS,
+        //       tsx: demo.moduleTS ? demoComponents[demo.moduleTS] : null,
+        //     }}
+        //     disableAd={disableAd}
+        //     // demoOptions={renderedMarkdownOrDemo}
+        //     githubLocation={`${process.env.SOURCE_CODE_REPO}/blob/v${process.env.LIB_VERSION}/docs/src/${name}`}
+        //   />
+        // );
       })}
     </AppLayoutDocs>
   );
