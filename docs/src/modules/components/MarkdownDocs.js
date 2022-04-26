@@ -28,7 +28,6 @@ function MarkdownDocs(props) {
   const t = useTranslate();
 
   const { description, location, rendered, title, toc, headers } = docs[userLanguage] || docs.en;
-
   return (
     <AppLayoutDocs
       description={description}

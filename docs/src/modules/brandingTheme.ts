@@ -121,8 +121,8 @@ export const getDesignTokens = (mode: 'light' | 'dark') =>
       mode,
       ...(mode === 'dark' && {
         background: {
-          default: blueDark[100],
-          paper: blueDark[100],
+          default: blueDark[800],
+          paper: blueDark[800],
         },
       }),
       common: {

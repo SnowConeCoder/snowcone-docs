@@ -2,17 +2,15 @@ import * as React from 'react';
 import Head from 'docs/src/modules/components/Head';
 import AppHeader from 'docs/src/layouts/AppHeader';
 import Hero from 'docs/src/components/home/Hero';
+import Page from 'docs/src/components/installation';
 
 export default function Home() {
   return (
     <React.Fragment>
-      <Head
-        title="SnowCone"
-        description="SnowCone"
-      />
+      <Head title="SnowCone" description="SnowCone" />
       <AppHeader />
       <main>
-        <Hero />
+        <Page />
       </main>
       <script
         type="application/ld+json"

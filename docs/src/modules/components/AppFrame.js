@@ -222,7 +222,7 @@ function AppFrame(props) {
           </NextLink>
           <GrowingDiv />
           <Stack direction="row" spacing={1.3}>
-            <AppFrameBanner />
+            {/* <AppFrameBanner /> */}
             <DeferredAppSearch />
             <Tooltip title={t('appFrame.github')} enterDelay={300}>
               <IconButton
