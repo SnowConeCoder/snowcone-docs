@@ -1,13 +1,7 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Popper from '@mui/material/Popper';
-import Paper from '@mui/material/Paper';
-import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
-import IconImage from 'docs/src/components/icon/IconImage';
-import ROUTES from 'docs/src/route';
-import FEATURE_TOGGLE from 'docs/src/featureToggle';
 import Link from 'docs/src/modules/components/Link';
 
 const Navigation = styled('nav')(({ theme }) => ({
@@ -192,7 +186,7 @@ export default function HeaderNavBar() {
   return (
     <Navigation>
       <ul ref={navRef} role="menubar" onKeyDown={handleLeftRightArrow}>
-        <li role="none">
+        {/* <li role="none">
           <Link role="menuitem" href={ROUTES.documentation}>
             Docs
           </Link>
@@ -211,7 +205,7 @@ export default function HeaderNavBar() {
           <Link role="menuitem" href={ROUTES.blog}>
             Blog
           </Link>
-        </li>
+        </li> */}
       </ul>
     </Navigation>
   );

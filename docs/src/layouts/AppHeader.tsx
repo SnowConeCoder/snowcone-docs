@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import SvgMuiLogo from 'docs/src/icons/SvgMuiLogo';
 import HeaderNavBar from 'docs/src/components/header/HeaderNavBar';
-import HeaderNavDropdown from 'docs/src/components/header/HeaderNavDropdown';
 import ThemeModeToggle from 'docs/src/components/header/ThemeModeToggle';
 import { getCookie } from 'docs/src/modules/utils/helpers';
 import { useChangeTheme } from 'docs/src/modules/components/ThemeContext';
@@ -88,9 +87,6 @@ export default function AppHeader() {
             />
           ) : null}
         </Stack>
-        <Box sx={{ display: { md: 'none' }, ml: 1 }}>
-          <HeaderNavDropdown />
-        </Box>
       </Container>
     </Header>
   );

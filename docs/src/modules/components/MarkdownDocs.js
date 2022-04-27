@@ -31,7 +31,7 @@ function MarkdownDocs(props) {
   return (
     <AppLayoutDocs
       description={description}
-      disableAd={disableAd}
+      // disableAd={disableAd}
       disableToc={disableToc}
       location={location}
       title={title}

@@ -134,7 +134,7 @@ function AppSettingsDrawer(props) {
             <LightModeIcon fontSize="small" />
             {t('settings.light')}
           </IconToggleButton>
-          <IconToggleButton
+          {/* <IconToggleButton
             value="system"
             aria-label={t('settings.system')}
             data-ga-event-category="settings"
@@ -142,7 +142,7 @@ function AppSettingsDrawer(props) {
           >
             <SettingsBrightnessIcon fontSize="small" />
             {t('settings.system')}
-          </IconToggleButton>
+          </IconToggleButton> */}
           <IconToggleButton
             value="dark"
             aria-label={t('settings.dark')}
@@ -153,10 +153,10 @@ function AppSettingsDrawer(props) {
             {t('settings.dark')}
           </IconToggleButton>
         </ToggleButtonGroup>
-        <Heading gutterBottom id="settings-direction">
+        {/* <Heading gutterBottom id="settings-direction">
           {t('settings.direction')}
-        </Heading>
-        <ToggleButtonGroup
+        </Heading> */}
+        {/* <ToggleButtonGroup
           exclusive
           value={theme.direction}
           onChange={handleChangeDirection}
@@ -182,8 +182,8 @@ function AppSettingsDrawer(props) {
             <FormatTextdirectionRToLIcon fontSize="small" />
             {t('settings.rtl')}
           </IconToggleButton>
-        </ToggleButtonGroup>
-        <Heading gutterBottom>{t('settings.language')}</Heading>
+        </ToggleButtonGroup> */}
+        {/* <Heading gutterBottom>{t('settings.language')}</Heading>
         <NoSsr defer>
           <List>
             {LANGUAGES_LABEL.map((language) => (
@@ -217,8 +217,8 @@ function AppSettingsDrawer(props) {
               {t('appFrame.helpToTranslate')}
             </ListItemButton>
           </List>
-        </NoSsr>
-        <Heading gutterBottom>{t('settings.color')}</Heading>
+        </NoSsr> */}
+        {/* <Heading gutterBottom>{t('settings.color')}</Heading>
         <Button
           component="a"
           href="/customization/color/#playground"
@@ -253,7 +253,7 @@ function AppSettingsDrawer(props) {
           }}
         >
           {t('settings.editWebsiteColors')}
-        </Button>
+        </Button> */}
       </Box>
     </Drawer>
   );
